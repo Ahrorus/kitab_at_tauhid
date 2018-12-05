@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../book/chapter.dart';
-import 'book_tabs_screen.dart';
+import 'chapter_tabs_screen.dart';
 
 class BookScreen extends StatelessWidget {
   @override

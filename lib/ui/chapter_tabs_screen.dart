@@ -57,7 +57,7 @@ class _BookTabsScreenState extends State<BookTabsScreen>
         body: TabBarView(
           children: <Widget>[
             showText(chapters[widget.position].russianMatn),
-            showText(chapters[widget.position].russianMatn)
+            showText(chapters[widget.position].arabicMatn)
           ],
           controller: _tabController,
         ),
