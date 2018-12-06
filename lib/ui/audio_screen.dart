@@ -39,9 +39,10 @@ class AudioScreen extends StatelessWidget {
 
 StatelessWidget tabText(String text) {
   return Container(
-      padding: EdgeInsets.only(bottom: 8.0),
+      padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
       child: Text(
         text,
-        style: TextStyle(color: Colors.blue, fontSize: 16.0),
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.blue, fontSize: 14.0),
       ));
 }
