@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '../book/chapter.dart';
+import '../book/chapters.dart';
 
 class BookTabsScreen extends StatefulWidget {
   final int position;

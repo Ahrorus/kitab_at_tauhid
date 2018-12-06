@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../book/chapter.dart';
+import '../book/chapters.dart';
 import 'chapter_tabs_screen.dart';
 
 class BookScreen extends StatelessWidget {
