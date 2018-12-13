@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../book/chapters.dart';
+import '../util/constants.dart';
 
 class BookTabsScreen extends StatefulWidget {
   final int position;
@@ -13,14 +15,27 @@ class BookTabsScreen extends StatefulWidget {
 
 class _BookTabsScreenState extends State<BookTabsScreen>
     with SingleTickerProviderStateMixin {
+  double _russianFontSize;
+  double _arabicFontSize;
   ScrollController _scrollViewController;
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _getFontStyle();
     _scrollViewController = ScrollController();
     _tabController = TabController(vsync: this, length: 2);
+  }
+
+  _getFontStyle() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _russianFontSize =
+          (prefs.getDouble(resourceRussianFontSize) ?? defaultTextSize);
+      _arabicFontSize =
+          (prefs.getDouble(resourceArabicFontSize) ?? defaultTextSize);
+    });
   }
 
   @override
@@ -56,8 +71,8 @@ class _BookTabsScreenState extends State<BookTabsScreen>
         },
         body: TabBarView(
           children: <Widget>[
-            showText(chapters[widget.position].russianMatn),
-            showText(chapters[widget.position].arabicMatn)
+            showText(chapters[widget.position].russianMatn, _russianFontSize),
+            showText(chapters[widget.position].arabicMatn, _arabicFontSize)
           ],
           controller: _tabController,
         ),
@@ -66,14 +81,14 @@ class _BookTabsScreenState extends State<BookTabsScreen>
   }
 }
 
-StatelessWidget showText(String text) {
+StatelessWidget showText(String text, double fontSize) {
   return SingleChildScrollView(
     child: Html(
       data: text,
 //Optional parameters:
       padding: EdgeInsets.all(8.0),
       defaultTextStyle: TextStyle(
-        fontSize: 16.0,
+        fontSize: fontSize,
       ),
     ),
   );
