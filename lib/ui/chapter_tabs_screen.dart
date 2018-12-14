@@ -25,7 +25,7 @@ class _BookTabsScreenState extends State<BookTabsScreen>
     super.initState();
     _getFontStyle();
     _scrollViewController = ScrollController();
-    _tabController = TabController(vsync: this, length: 2);
+    _tabController = TabController(vsync: this, length: tabNum);
   }
 
   _getFontStyle() async {
@@ -56,12 +56,13 @@ class _BookTabsScreenState extends State<BookTabsScreen>
               title: Text(chapters[widget.position].russianTitle),
               pinned: true,
               floating: true,
+              snap: true,
               forceElevated: innerBoxIsScrolled,
               bottom: TabBar(
                 tabs: <Tab>[
-                  Tab(text: 'Матн'),
+                  Tab(text: resourceMatnRussian),
                   Tab(
-                    text: 'متن',
+                    text: resourceMatnArabic,
                   ),
                 ],
                 controller: _tabController,
@@ -86,7 +87,7 @@ StatelessWidget showText(String text, double fontSize) {
     child: Html(
       data: text,
 //Optional parameters:
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(textEdgeInset),
       defaultTextStyle: TextStyle(
         fontSize: fontSize,
       ),

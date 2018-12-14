@@ -15,21 +15,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    _getRussianFontSize();
-    _getArabicFontSize();
+    _getFontStyle();
   }
 
-  _getRussianFontSize() async {
+  _getFontStyle() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _russianFontSize =
           (prefs.getDouble(resourceRussianFontSize) ?? defaultTextSize);
-    });
-  }
-
-  _getArabicFontSize() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
       _arabicFontSize =
           (prefs.getDouble(resourceArabicFontSize) ?? defaultTextSize);
     });

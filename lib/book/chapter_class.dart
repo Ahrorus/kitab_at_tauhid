@@ -1,6 +1,4 @@
 class Chapter {
-  static const int tabNum = 4;
-
   String russianTitle;
   String arabicTitle;
   String russianMatn;

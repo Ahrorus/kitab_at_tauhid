@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../util/constants.dart';
 import 'audio_screen.dart';
 import 'book_screen.dart';
 import 'settings_screen.dart';
@@ -40,14 +41,14 @@ class _HomeState extends State<Home> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.audiotrack),
-            title: Text('Аудио'),
+            title: Text(resourceAudio),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
-            title: Text('Книга'),
+            title: Text(resourceBook),
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), title: Text('Настройки'))
+              icon: Icon(Icons.settings), title: Text(resourceSettings))
         ],
       ),
       body: _children[_currentIndex],

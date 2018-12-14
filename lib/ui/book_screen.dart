@@ -12,11 +12,11 @@ class BookScreen extends StatelessWidget {
             itemBuilder: (BuildContext context, int position) {
               return ListTile(
                   title: Text(
-                    "${chapters[position].russianTitle}",
+                    chapters[position].russianTitle,
                   ),
                   subtitle: Text(chapters[position].arabicTitle),
                   leading: CircleAvatar(
-                    child: Text(position.toString()),
+                    child: Text((position + 1).toString()),
                   ),
                   onTap: () => Navigator.push(
                         context,
