@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../util/constants.dart';
+import '../../util/constants.dart';
 
 class AudioScreen extends StatelessWidget {
   @override
@@ -17,9 +17,9 @@ class AudioScreen extends StatelessWidget {
                   Expanded(child: Container()),
                   TabBar(
                     tabs: [
-                      tabText(lecturers[0]),
-                      tabText(lecturers[1]),
-                      tabText(lecturers[2])
+                      TabText(lecturers[0]),
+                      TabText(lecturers[1]),
+                      TabText(lecturers[2])
                     ],
                   ),
                 ],
@@ -39,12 +39,19 @@ class AudioScreen extends StatelessWidget {
   }
 }
 
-StatelessWidget tabText(String text) {
-  return Container(
-      padding: EdgeInsets.only(bottom: tabTextEdgeInset, top: tabTextEdgeInset),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.blue),
-      ));
+class TabText extends StatelessWidget {
+  final String text;
+  TabText(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding:
+            EdgeInsets.only(bottom: tabTextEdgeInset, top: tabTextEdgeInset),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.blue),
+        ));
+  }
 }

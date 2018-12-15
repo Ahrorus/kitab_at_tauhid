@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../book/chapters.dart';
-import '../util/constants.dart';
+import '../../book_resource/book.dart';
+import '../../util/constants.dart';
+import 'text_view.dart';
 
 class BookTabsScreen extends StatefulWidget {
   final int position;
@@ -53,7 +53,10 @@ class _BookTabsScreenState extends State<BookTabsScreen>
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              title: Text(resourceChapter + (widget.position + 1).toString()),
+              title: Text(resourceChapter +
+                  (widget.position + 1).toString() +
+                  ' / ' +
+                  chapters.length.toString()),
               pinned: true,
               floating: true,
               snap: true,
@@ -72,9 +75,9 @@ class _BookTabsScreenState extends State<BookTabsScreen>
         },
         body: TabBarView(
           children: <Widget>[
-            showText(chapters[widget.position].russianTitle,
+            TextView(chapters[widget.position].russianTitle,
                 chapters[widget.position].russianMatn, _russianFontSize),
-            showText(chapters[widget.position].arabicTitle,
+            TextView(chapters[widget.position].arabicTitle,
                 chapters[widget.position].arabicMatn, _arabicFontSize)
           ],
           controller: _tabController,
@@ -82,28 +85,4 @@ class _BookTabsScreenState extends State<BookTabsScreen>
       ),
     );
   }
-}
-
-StatelessWidget showText(String header, String text, double fontSize) {
-  return ListView(
-    children: <Widget>[
-      Container(
-          padding: EdgeInsets.only(
-              left: textEdgeInset, top: textEdgeInset, right: textEdgeInset),
-          child: Text(
-            header,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: fontSize * 1.2, fontWeight: FontWeight.w900),
-          )),
-      Html(
-        data: text,
-//Optional parameters:
-        padding: EdgeInsets.all(textEdgeInset),
-        defaultTextStyle: TextStyle(
-          fontSize: fontSize,
-        ),
-      ),
-    ],
-  );
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../util/constants.dart';
+import '../../util/constants.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

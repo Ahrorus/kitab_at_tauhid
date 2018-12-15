@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kitab_at_tauhid/ui/book/book_screen.dart';
+import 'package:kitab_at_tauhid/ui/settings/settings_screen.dart';
 
 import '../util/constants.dart';
-import 'audio_screen.dart';
-import 'book_screen.dart';
-import 'settings_screen.dart';
+import 'audio/audio_screen.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
