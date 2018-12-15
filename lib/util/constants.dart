@@ -17,3 +17,4 @@ const String resourceMatnArabic = 'متن';
 const String resourceAudio = 'Аудио';
 const String resourceBook = 'Книга';
 const String resourceSettings = 'Настройки';
+const String resourceChapter = "Часть ";
