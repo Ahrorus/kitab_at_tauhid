@@ -11,8 +11,7 @@ const int tabNum = 2;
 
 const String resourceRussianFontSize = 'russianFontSize';
 const String resourceArabicFontSize = 'arabicFontSize';
-const String resourceThemeIndex = 'themeIndex';
-const List<String> themeNames = ['Светлая', 'Темная'];
+const String nightMode = 'Ночной режим';
 const String resourceRussianBasmala = 'С именем Аллаха';
 const String resourceArabicBasmala = 'بِسۡمِ ٱلله';
 const String resourceRussianTextSize = 'Размер русского текста';
@@ -26,5 +25,3 @@ const String resourceSettings = 'Настройки';
 const String resourceChapter = 'Глава ';
 
 Color primaryColor = Colors.indigo;
-List<Brightness> themeBrightnesses = [Brightness.light, Brightness.dark];
-List<Color> themeColors = [Colors.white, Colors.black];

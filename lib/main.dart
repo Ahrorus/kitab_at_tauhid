@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        defaultBrightness: themeBrightnesses[0],
+        defaultBrightness: Brightness.light,
         data: (brightness) => new ThemeData(
               primarySwatch: primaryColor,
               brightness: brightness,

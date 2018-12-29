@@ -12,7 +12,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   double _russianFontSize;
   double _arabicFontSize;
-  int _themeIndex = 0;
 
   @override
   void initState() {
@@ -27,7 +26,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           (prefs.getDouble(resourceRussianFontSize) ?? defaultTextSize);
       _arabicFontSize =
           (prefs.getDouble(resourceArabicFontSize) ?? defaultTextSize);
-      _themeIndex = (prefs.getInt(resourceThemeIndex) ?? defaultThemeIndex);
     });
   }
 
@@ -51,15 +49,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  _setThemeIndex(int index) async {
-    _themeIndex = index;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    DynamicTheme.of(context).setBrightness(themeBrightnesses[index]);
-    setState(() {
-      prefs.setInt(resourceThemeIndex, _themeIndex);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView(children: <Widget>[
@@ -68,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         initialValue: _russianFontSize,
         onSelected: _setRussianFontSize,
         child: ListTile(
-            title: const Text(resourceRussianTextSize),
+            title: Text(resourceRussianTextSize),
             subtitle: Text(
               resourceRussianBasmala,
               style: TextStyle(fontSize: _russianFontSize),
@@ -88,7 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         initialValue: _arabicFontSize,
         onSelected: _setArabicFontSize,
         child: ListTile(
-            title: const Text(resourceArabicTextSize),
+            title: Text(resourceArabicTextSize),
             subtitle: Text(
               resourceArabicBasmala,
               style: TextStyle(fontSize: _arabicFontSize),
@@ -103,39 +92,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       style: TextStyle(fontSize: fontSizes[i]),
                     ))),
       ),
-      PopupMenuButton<int>(
-        padding: EdgeInsets.zero,
-        initialValue: _themeIndex,
-        onSelected: _setThemeIndex,
-        child: ListTile(
-            title: Text(resourceTheme),
-            subtitle: Container(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                    child:
-                        CircleAvatar(backgroundColor: themeColors[_themeIndex]),
-                    padding: EdgeInsets.all(2.0),
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      shape: BoxShape.circle,
-                    )))),
-        itemBuilder: (BuildContext context) =>
-            List<PopupMenuItem<int>>.generate(
-                themeNames.length,
-                (i) => PopupMenuItem<int>(
-                      value: i,
-                      child: ListTile(
-                          title: Text(themeNames[i]),
-                          leading: Container(
-                              child:
-                                  CircleAvatar(backgroundColor: themeColors[i]),
-                              padding: EdgeInsets.all(2.0),
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                shape: BoxShape.circle,
-                              ))),
-                    )),
-      )
+    IconButton(
+    icon: Icon(Icons.brightness_6),
+    onPressed: (){
+//      It is possible to change whole theme https://github.com/Norbert515/dynamic_theme
+    DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
+    },
+    )
     ]);
   }
 }
