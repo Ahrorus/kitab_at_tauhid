@@ -15,8 +15,8 @@ class BookTabsScreen extends StatefulWidget {
 
 class _BookTabsScreenState extends State<BookTabsScreen>
     with SingleTickerProviderStateMixin {
-  double _russianFontSize;
-  double _arabicFontSize;
+  double _russianFontSize = defaultTextSize;
+  double _arabicFontSize = defaultTextSize;
   ScrollController _scrollViewController;
   TabController _tabController;
 

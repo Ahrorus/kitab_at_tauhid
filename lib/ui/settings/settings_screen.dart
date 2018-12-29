@@ -10,8 +10,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  double _russianFontSize;
-  double _arabicFontSize;
+  double _russianFontSize = defaultTextSize;
+  double _arabicFontSize = defaultTextSize;
 
   @override
   void initState() {
