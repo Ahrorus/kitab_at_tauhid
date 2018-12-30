@@ -17,6 +17,8 @@ class _BookTabsScreenState extends State<BookTabsScreen>
     with SingleTickerProviderStateMixin {
   double _russianFontSize = defaultTextSize;
   double _arabicFontSize = defaultTextSize;
+  String _russianFont = russianFonts[0];
+  String _arabicFont = arabicFonts[0];
   ScrollController _scrollViewController;
   TabController _tabController;
 
@@ -35,6 +37,8 @@ class _BookTabsScreenState extends State<BookTabsScreen>
           (prefs.getDouble(resourceRussianFontSize) ?? defaultTextSize);
       _arabicFontSize =
           (prefs.getDouble(resourceArabicFontSize) ?? defaultTextSize);
+      _russianFont = (prefs.getString(resourceRussianFont) ?? russianFonts[0]);
+      _arabicFont = (prefs.getString(resourceArabicFont) ?? arabicFonts[0]);
     });
   }
 
@@ -76,9 +80,9 @@ class _BookTabsScreenState extends State<BookTabsScreen>
         body: TabBarView(
           children: <Widget>[
             TextView(chapters[widget.position].russianTitle,
-                chapters[widget.position].russianMatn, _russianFontSize),
+                chapters[widget.position].russianMatn, _russianFontSize, _russianFont),
             TextView(chapters[widget.position].arabicTitle,
-                chapters[widget.position].arabicMatn, _arabicFontSize)
+                chapters[widget.position].arabicMatn, _arabicFontSize, _arabicFont)
           ],
           controller: _tabController,
         ),

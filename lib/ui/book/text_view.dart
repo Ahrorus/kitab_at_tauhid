@@ -7,8 +7,9 @@ class TextView extends StatelessWidget {
   final String header;
   final String text;
   final double fontSize;
+  final String fontFamily;
 
-  TextView(this.header, this.text, this.fontSize);
+  TextView(this.header, this.text, this.fontSize, this.fontFamily);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class TextView extends StatelessWidget {
               header,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: fontSize * 1.2, fontWeight: FontWeight.w900),
+                  fontSize: fontSize * 1.2, fontWeight: FontWeight.w900, fontFamily: fontFamily),
             )),
         Html(
           data: text,
@@ -29,6 +30,7 @@ class TextView extends StatelessWidget {
           padding: EdgeInsets.all(textEdgeInset),
           defaultTextStyle: TextStyle(
             fontSize: fontSize,
+            fontFamily: fontFamily
           ),
         ),
       ],

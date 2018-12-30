@@ -55,17 +55,97 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+    - family: Amiri
+      fonts:
+        - asset: fonts/Amiri/Amiri-Regular.ttf
+        - asset: fonts/Amiri/Amiri-Italic.ttf
+          style: italic
+        - asset: fonts/Amiri/Amiri-Bold.ttf
+          weight: 700
+        - asset: fonts/Amiri/Amiri-BoldItalic.ttf
+          style: italic
+          weight: 700
+    - family: Katibeh
+      fonts:
+        - asset: fonts/Katibeh/Katibeh-Regular.ttf
+    - family: Lateef
+      fonts:
+        - asset: fonts/Lateef/LateefRegOT.ttf
+    - family: MarkaziText
+      fonts:
+        - asset: fonts/Markazi_Text/MarkaziText-Regular.ttf
+    - family: Mirza
+      fonts:
+        - asset: fonts/Mirza/Mirza-Regular.ttf
+        - asset: fonts/Mirza/Mirza-Medium.ttf
+          weight: 200
+        - asset: fonts/Mirza/Mirza-Bold.ttf
+          weight: 700
+        - asset: fonts/Mirza/Mirza-SemiBold.ttf
+          weight: 400
+    - family: Scheherazade
+      fonts:
+        - asset: fonts/Scheherazade/Scheherazade-Regular.ttf
+        - asset: fonts/Scheherazade/Scheherazade-Bold.ttf
+          weight: 700
+
+
+    - family: Lora
+      fonts:
+        - asset: fonts/Lora/Lora-Regular.ttf
+        - asset: fonts/Lora/Lora-Italic.ttf
+          style: italic
+        - asset: fonts/Lora/Lora-Bold.ttf
+          weight: 700
+        - asset: fonts/Lora/Lora-BoldItalic.ttf
+          style: italic
+          weight: 700
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat/Montserrat-Regular.ttf
+        - asset: fonts/Montserrat/Montserrat-Italic.ttf
+          style: italic
+        - asset: fonts/Montserrat/Montserrat-Bold.ttf
+          weight: 700
+        - asset: fonts/Montserrat/Montserrat-BoldItalic.ttf
+          style: italic
+          weight: 700
+    - family: OpenSans
+      fonts:
+        - asset: fonts/Open_Sans/OpenSans-Regular.ttf
+        - asset: fonts/Open_Sans/OpenSans-Italic.ttf
+          style: italic
+        - asset: fonts/Open_Sans/OpenSans-Bold.ttf
+          weight: 700
+        - asset: fonts/Open_Sans/OpenSans-BoldItalic.ttf
+          style: italic
+          weight: 700
+    - family: Oswald
+      fonts:
+        - asset: fonts/Oswald/Oswald-Regular.ttf
+        - asset: fonts/Oswald/Oswald-Bold.ttf
+          weight: 700
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto/Roboto-Regular.ttf
+        - asset: fonts/Roboto/Roboto-Italic.ttf
+          style: italic
+        - asset: fonts/Roboto/Roboto-Bold.ttf
+          weight: 700
+        - asset: fonts/Roboto/Roboto-BoldItalic.ttf
+          style: italic
+          weight: 700
+    - family: Ubuntu
+      fonts:
+        - asset: fonts/Ubuntu/Ubuntu-Regular.ttf
+        - asset: fonts/Ubuntu/Ubuntu-Italic.ttf
+          style: italic
+        - asset: fonts/Ubuntu/Ubuntu-Bold.ttf
+          weight: 700
+        - asset: fonts/Ubuntu/Ubuntu-BoldItalic.ttf
+          style: italic
+          weight: 700
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages

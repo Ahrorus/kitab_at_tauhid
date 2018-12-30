@@ -12,6 +12,8 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   double _russianFontSize = defaultTextSize;
   double _arabicFontSize = defaultTextSize;
+  String _russianFont = russianFonts[0];
+  String _arabicFont = arabicFonts[0];
 
   @override
   void initState() {
@@ -26,6 +28,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           (prefs.getDouble(resourceRussianFontSize) ?? defaultTextSize);
       _arabicFontSize =
           (prefs.getDouble(resourceArabicFontSize) ?? defaultTextSize);
+      _russianFont = (prefs.getString(resourceRussianFont) ?? russianFonts[0]);
+      _arabicFont = (prefs.getString(resourceArabicFont) ?? arabicFonts[0]);
     });
   }
 
@@ -49,9 +53,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  _setRussianFont(String font) async {
+    if (russianFonts.contains(font)) {
+      _russianFont = font;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        prefs.setString(resourceRussianFont, _russianFont);
+      });
+    }
+  }
+
+  _setArabicFont(String font) async {
+    if (arabicFonts.contains(font)) {
+      _arabicFont = font;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        prefs.setString(resourceArabicFont, _arabicFont);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(children: <Widget>[
+      IconButton(
+        icon: Icon(Icons.brightness_6),
+        onPressed: () {
+//      It is possible to change whole theme https://github.com/Norbert515/dynamic_theme
+          DynamicTheme.of(context).setBrightness(
+              Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.light
+                  : Brightness.dark);
+        },
+      ),
       PopupMenuButton<double>(
         padding: EdgeInsets.zero,
         initialValue: _russianFontSize,
@@ -60,7 +94,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: Text(resourceRussianTextSize),
             subtitle: Text(
               resourceRussianBasmala,
-              style: TextStyle(fontSize: _russianFontSize),
+              style: TextStyle(
+                  fontSize: _russianFontSize, fontFamily: _russianFont),
             )),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<double>>.generate(
@@ -69,7 +104,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     value: fontSizes[i],
                     child: Text(
                       resourceRussianBasmala,
-                      style: TextStyle(fontSize: fontSizes[i]),
+                      style: TextStyle(
+                          fontSize: fontSizes[i], fontFamily: _russianFont),
+                    ))),
+      ),
+      PopupMenuButton<String>(
+        padding: EdgeInsets.zero,
+        initialValue: _russianFont,
+        onSelected: _setRussianFont,
+        child: ListTile(
+            title: Text(resourceRussianTextFont),
+            subtitle: Text(
+              resourceRussianBasmala,
+              style: TextStyle(
+                  fontFamily: _russianFont, fontSize: _russianFontSize),
+            )),
+        itemBuilder: (BuildContext context) =>
+            List<PopupMenuItem<String>>.generate(
+                russianFonts.length,
+                (i) => PopupMenuItem<String>(
+                    value: russianFonts[i],
+                    child: Text(
+                      resourceRussianBasmala,
+                      style: TextStyle(
+                          fontFamily: russianFonts[i],
+                          fontSize: _russianFontSize),
                     ))),
       ),
       PopupMenuButton<double>(
@@ -80,7 +139,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: Text(resourceArabicTextSize),
             subtitle: Text(
               resourceArabicBasmala,
-              style: TextStyle(fontSize: _arabicFontSize),
+              style:
+                  TextStyle(fontSize: _arabicFontSize, fontFamily: _arabicFont),
             )),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<double>>.generate(
@@ -89,16 +149,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     value: fontSizes[i],
                     child: Text(
                       resourceArabicBasmala,
-                      style: TextStyle(fontSize: fontSizes[i]),
+                      style: TextStyle(
+                          fontSize: fontSizes[i], fontFamily: _arabicFont),
                     ))),
       ),
-    IconButton(
-    icon: Icon(Icons.brightness_6),
-    onPressed: (){
-//      It is possible to change whole theme https://github.com/Norbert515/dynamic_theme
-    DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
-    },
-    )
+      PopupMenuButton<String>(
+        padding: EdgeInsets.zero,
+        initialValue: _arabicFont,
+        onSelected: _setArabicFont,
+        child: ListTile(
+            title: Text(resourceArabicTextFont),
+            subtitle: Text(
+              resourceArabicBasmala,
+              style:
+                  TextStyle(fontFamily: _arabicFont, fontSize: _arabicFontSize),
+            )),
+        itemBuilder: (BuildContext context) =>
+            List<PopupMenuItem<String>>.generate(
+                arabicFonts.length,
+                (i) => PopupMenuItem<String>(
+                    value: arabicFonts[i],
+                    child: Text(
+                      resourceArabicBasmala,
+                      style: TextStyle(
+                          fontFamily: arabicFonts[i],
+                          fontSize: _arabicFontSize),
+                    ))),
+      ),
     ]);
   }
 }
