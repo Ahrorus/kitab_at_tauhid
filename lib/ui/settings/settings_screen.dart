@@ -91,12 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         initialValue: _russianFontSize,
         onSelected: _setRussianFontSize,
         child: ListTile(
-            title: Text(resourceRussianTextSize),
-            subtitle: Text(
-              resourceRussianBasmala,
-              style: TextStyle(
-                  fontSize: _russianFontSize, fontFamily: _russianFont),
-            )),
+    title: Text(resourceRussianTextSize)),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<double>>.generate(
                 fontSizes.length,
@@ -113,12 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         initialValue: _russianFont,
         onSelected: _setRussianFont,
         child: ListTile(
-            title: Text(resourceRussianTextFont),
-            subtitle: Text(
-              resourceRussianBasmala,
-              style: TextStyle(
-                  fontFamily: _russianFont, fontSize: _russianFontSize),
-            )),
+    title: Text(resourceRussianTextFont)),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<String>>.generate(
                 russianFonts.length,
@@ -136,12 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         initialValue: _arabicFontSize,
         onSelected: _setArabicFontSize,
         child: ListTile(
-            title: Text(resourceArabicTextSize),
-            subtitle: Text(
-              resourceArabicBasmala,
-              style:
-                  TextStyle(fontSize: _arabicFontSize, fontFamily: _arabicFont),
-            )),
+    title: Text(resourceArabicTextSize)),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<double>>.generate(
                 fontSizes.length,
@@ -158,12 +143,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         initialValue: _arabicFont,
         onSelected: _setArabicFont,
         child: ListTile(
-            title: Text(resourceArabicTextFont),
-            subtitle: Text(
-              resourceArabicBasmala,
-              style:
-                  TextStyle(fontFamily: _arabicFont, fontSize: _arabicFontSize),
-            )),
+    title: Text(resourceArabicTextFont)),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<String>>.generate(
                 arabicFonts.length,
