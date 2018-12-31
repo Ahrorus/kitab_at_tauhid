@@ -10,8 +10,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  double _russianFontSize = defaultTextSize;
-  double _arabicFontSize = defaultTextSize;
+  double _russianFontSize = defaultRussianTextSize;
+  double _arabicFontSize = defaultArabicTextSize;
   String _russianFont = russianFonts[0];
   String _arabicFont = arabicFonts[0];
 
@@ -25,9 +25,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _russianFontSize =
-          (prefs.getDouble(resourceRussianFontSize) ?? defaultTextSize);
+          (prefs.getDouble(resourceRussianFontSize) ?? defaultRussianTextSize);
       _arabicFontSize =
-          (prefs.getDouble(resourceArabicFontSize) ?? defaultTextSize);
+          (prefs.getDouble(resourceArabicFontSize) ?? defaultArabicTextSize);
       _russianFont = (prefs.getString(resourceRussianFont) ?? russianFonts[0]);
       _arabicFont = (prefs.getString(resourceArabicFont) ?? arabicFonts[0]);
     });
@@ -90,8 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: EdgeInsets.zero,
         initialValue: _russianFontSize,
         onSelected: _setRussianFontSize,
-        child: ListTile(
-    title: Text(resourceRussianTextSize)),
+        child: ListTile(title: Text(resourceRussianTextSize)),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<double>>.generate(
                 fontSizes.length,
@@ -107,8 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: EdgeInsets.zero,
         initialValue: _russianFont,
         onSelected: _setRussianFont,
-        child: ListTile(
-    title: Text(resourceRussianTextFont)),
+        child: ListTile(title: Text(resourceRussianTextFont)),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<String>>.generate(
                 russianFonts.length,
@@ -125,8 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: EdgeInsets.zero,
         initialValue: _arabicFontSize,
         onSelected: _setArabicFontSize,
-        child: ListTile(
-    title: Text(resourceArabicTextSize)),
+        child: ListTile(title: Text(resourceArabicTextSize)),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<double>>.generate(
                 fontSizes.length,
@@ -142,8 +139,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: EdgeInsets.zero,
         initialValue: _arabicFont,
         onSelected: _setArabicFont,
-        child: ListTile(
-    title: Text(resourceArabicTextFont)),
+        child: ListTile(title: Text(resourceArabicTextFont)),
         itemBuilder: (BuildContext context) =>
             List<PopupMenuItem<String>>.generate(
                 arabicFonts.length,
