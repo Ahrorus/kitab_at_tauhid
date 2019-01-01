@@ -1,15 +1,14 @@
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../util/constants.dart';
 
-class SettingsScreen extends StatefulWidget {
+class MenuScreen extends StatefulWidget {
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  _MenuScreenState createState() => _MenuScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _MenuScreenState extends State<MenuScreen> {
   double _russianFontSize = defaultRussianTextSize;
   double _arabicFontSize = defaultArabicTextSize;
   String _russianFont = russianFonts[0];
@@ -76,16 +75,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView(children: <Widget>[
-      IconButton(
-        icon: Icon(Icons.brightness_6),
-        onPressed: () {
-//      It is possible to change whole theme https://github.com/Norbert515/dynamic_theme
-          DynamicTheme.of(context).setBrightness(
-              Theme.of(context).brightness == Brightness.dark
-                  ? Brightness.light
-                  : Brightness.dark);
-        },
-      ),
       PopupMenuButton<double>(
         padding: EdgeInsets.zero,
         initialValue: _russianFontSize,

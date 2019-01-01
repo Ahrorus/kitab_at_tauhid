@@ -1,3 +1,4 @@
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,57 +25,6 @@ class _BookTabsScreenState extends State<BookTabsScreen>
   TabController _tabController;
 
   @override
-  void initState() {
-    super.initState();
-    _getFontStyle();
-    _scrollViewController = ScrollController();
-    _tabController = TabController(vsync: this, length: tabNum);
-  }
-
-  _getFontStyle() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _russianFontSize =
-          (prefs.getDouble(resourceRussianFontSize) ?? defaultRussianTextSize);
-      _arabicFontSize =
-          (prefs.getDouble(resourceArabicFontSize) ?? defaultArabicTextSize);
-      _russianFont = (prefs.getString(resourceRussianFont) ?? russianFonts[0]);
-      _arabicFont = (prefs.getString(resourceArabicFont) ?? arabicFonts[0]);
-      _bookmarks = (prefs.getStringList(resourceBookmarks) ??
-          List<String>.filled(chapters.length, 'false'));
-    });
-  }
-
-  _setBookmark(int chapterIndex) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (_bookmarks[chapterIndex] == 'false') {
-        _bookmarks[chapterIndex] = 'true';
-      } else {
-        _bookmarks[chapterIndex] = 'false';
-      }
-      prefs.setStringList(resourceBookmarks, _bookmarks);
-    });
-  }
-
-  _goToPage(index){
-    if(index >= 0 && index < chapters.length)
- Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-    builder: (context) =>
-    BookTabsScreen(position: index)),
-    );
-  }
-
-  @override
-  void dispose() {
-    _scrollViewController.dispose();
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
@@ -95,6 +45,16 @@ class _BookTabsScreenState extends State<BookTabsScreen>
                 IconButton(
                     onPressed: () {_goToPage(widget.position + 1);},
                     icon: Icon(Icons.arrow_forward_ios)
+                ),
+                IconButton(
+                  icon: Icon(Icons.brightness_6),
+                  onPressed: () {
+//      It is possible to change whole theme https://github.com/Norbert515/dynamic_theme
+                    DynamicTheme.of(context).setBrightness(
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Brightness.light
+                            : Brightness.dark);
+                  },
                 ),
                 IconButton(
                   onPressed: ()  {_setBookmark(widget.position);},
@@ -130,5 +90,56 @@ class _BookTabsScreenState extends State<BookTabsScreen>
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollViewController.dispose();
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getFontStyle();
+    _scrollViewController = ScrollController();
+    _tabController = TabController(vsync: this, length: tabNum);
+  }
+
+  _getFontStyle() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _russianFontSize =
+          (prefs.getDouble(resourceRussianFontSize) ?? defaultRussianTextSize);
+      _arabicFontSize =
+          (prefs.getDouble(resourceArabicFontSize) ?? defaultArabicTextSize);
+      _russianFont = (prefs.getString(resourceRussianFont) ?? russianFonts[0]);
+      _arabicFont = (prefs.getString(resourceArabicFont) ?? arabicFonts[0]);
+      _bookmarks = (prefs.getStringList(resourceBookmarks) ??
+          List<String>.filled(chapters.length, 'false'));
+    });
+  }
+
+  _goToPage(index){
+    if(index >= 0 && index < chapters.length)
+ Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+    builder: (context) =>
+    BookTabsScreen(position: index)),
+    );
+  }
+
+  _setBookmark(int chapterIndex) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (_bookmarks[chapterIndex] == 'false') {
+        _bookmarks[chapterIndex] = 'true';
+      } else {
+        _bookmarks[chapterIndex] = 'false';
+      }
+      prefs.setStringList(resourceBookmarks, _bookmarks);
+    });
   }
 }

@@ -1,6 +1,7 @@
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:kitab_at_tauhid/ui/book/book_screen.dart';
-import 'package:kitab_at_tauhid/ui/settings/settings_screen.dart';
+import 'package:kitab_at_tauhid/ui/settings/menu_screen.dart';
 
 import '../util/constants.dart';
 import 'audio/audio_screen.dart';
@@ -16,11 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 1;
 
-  final List<Widget> _children = [
-    AudioScreen(),
-    BookScreen(),
-    SettingsScreen()
-  ];
+  final List<Widget> _children = [AudioScreen(), BookScreen(), MenuScreen()];
 
   void onTabTapped(int index) {
     setState(() {
@@ -34,6 +31,18 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.brightness_6),
+            onPressed: () {
+//      It is possible to change whole theme https://github.com/Norbert515/dynamic_theme
+              DynamicTheme.of(context).setBrightness(
+                  Theme.of(context).brightness == Brightness.dark
+                      ? Brightness.light
+                      : Brightness.dark);
+            },
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
