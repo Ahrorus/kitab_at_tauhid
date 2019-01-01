@@ -52,12 +52,11 @@ class _BookScreenState extends State<BookScreen> {
                 ),
                 subtitle: Text(chapters[position].arabicTitle,
                     style: TextStyle(fontSize: defaultArabicTextSize)),
-                leading: CircleAvatar(
+                leading: Column(children: <Widget>[CircleAvatar(
                     child: Text((position + 1).toString(),
                         style: TextStyle(fontWeight: FontWeight.bold)),
-                    backgroundColor: (_bookmarks[position] == 'true')
-                        ? bookmarkColor
-                        : primaryColor),
+                    ),
+                    Icon(Icons.bookmark, color: (_bookmarks[position] == 'false') ? Color(0x00000000) : Theme.of(context).accentColor)],),
                 onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(

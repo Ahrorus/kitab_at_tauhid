@@ -81,12 +81,10 @@ class _BookTabsScreenState extends State<BookTabsScreen>
                   ' / ' +
                   chapters.length.toString()),
               actions: <Widget>[
-                Checkbox(
-                    value:
-                        (_bookmarks[widget.position] == 'false') ? false : true,
-                    onChanged: (value) {
-                      _setBookmark(widget.position);
-                    }),
+                IconButton(
+                  onPressed: ()  {_setBookmark(widget.position);},
+                  icon: (_bookmarks[widget.position] == 'false') ? Icon(Icons.bookmark_border) : Icon(Icons.bookmark)
+                )
               ],
               bottom: TabBar(
                 tabs: <Tab>[
@@ -111,7 +109,7 @@ class _BookTabsScreenState extends State<BookTabsScreen>
                 chapters[widget.position].arabicTitle,
                 chapters[widget.position].arabicMatn,
                 _arabicFontSize,
-                _arabicFont)
+                _arabicFont),
           ],
           controller: _tabController,
         ),

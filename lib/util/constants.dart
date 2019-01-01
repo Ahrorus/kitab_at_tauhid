@@ -33,4 +33,3 @@ const String resourceSettings = 'Настройки';
 const String resourceChapter = 'Глава ';
 
 Color primaryColor = Colors.indigo;
-Color bookmarkColor = Colors.red;
