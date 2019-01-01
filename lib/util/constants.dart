@@ -29,6 +29,6 @@ const String resourceMatnRussian = 'Матн';
 const String resourceMatnArabic = 'متن';
 const String resourceAudio = 'Аудио';
 const String resourceBook = 'Книга';
-const String resourceSettings = 'Настройки';
+const String resourceSettings = 'Меню';
 
 Color primaryColor = Colors.indigo;

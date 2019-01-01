@@ -36,15 +36,104 @@ class _BookTabsScreenState extends State<BookTabsScreen>
               floating: true,
               snap: true,
               forceElevated: innerBoxIsScrolled,
-              title: Text('${widget.position + 1} / ${chapters.length.toString()}'),
+              title: Text(
+                  '${widget.position + 1} / ${chapters.length.toString()}'),
               actions: <Widget>[
                 IconButton(
-                    onPressed: ()  {_goToPage(widget.position - 1);},
-                    icon: Icon(Icons.arrow_back_ios)
-                ),
+                    onPressed: () {
+                      _goToPage(widget.position - 1);
+                    },
+                    icon: Icon(Icons.arrow_back_ios)),
                 IconButton(
-                    onPressed: () {_goToPage(widget.position + 1);},
-                    icon: Icon(Icons.arrow_forward_ios)
+                    onPressed: () {
+                      _goToPage(widget.position + 1);
+                    },
+                    icon: Icon(Icons.arrow_forward_ios)),
+                PopupMenuButton(
+                  child: const Icon(Icons.text_fields),
+                  itemBuilder: (_) => <PopupMenuItem<String>>[
+                        new PopupMenuItem<String>(
+                            child: PopupMenuButton<double>(
+                              padding: EdgeInsets.zero,
+                              initialValue: _russianFontSize,
+                              onSelected: _setRussianFontSize,
+                              child: ListTile(
+                                  title: Text(resourceRussianTextSize)),
+                              itemBuilder: (BuildContext context) =>
+                                  List<PopupMenuItem<double>>.generate(
+                                      fontSizes.length,
+                                      (i) => PopupMenuItem<double>(
+                                          value: fontSizes[i],
+                                          child: Text(
+                                            resourceRussianBasmala,
+                                            style: TextStyle(
+                                                fontSize: fontSizes[i],
+                                                fontFamily: _russianFont),
+                                          ))),
+                            ),
+                            value: resourceRussianTextSize),
+                        new PopupMenuItem<String>(
+                            child: PopupMenuButton<String>(
+                              padding: EdgeInsets.zero,
+                              initialValue: _russianFont,
+                              onSelected: _setRussianFont,
+                              child: ListTile(
+                                  title: Text(resourceRussianTextFont)),
+                              itemBuilder: (BuildContext context) =>
+                                  List<PopupMenuItem<String>>.generate(
+                                      russianFonts.length,
+                                      (i) => PopupMenuItem<String>(
+                                          value: russianFonts[i],
+                                          child: Text(
+                                            resourceRussianBasmala,
+                                            style: TextStyle(
+                                                fontFamily: russianFonts[i],
+                                                fontSize: _russianFontSize),
+                                          ))),
+                            ),
+                            value: resourceRussianTextFont),
+                        new PopupMenuItem<String>(
+                            child: new PopupMenuButton<double>(
+                              padding: EdgeInsets.zero,
+                              initialValue: _arabicFontSize,
+                              onSelected: _setArabicFontSize,
+                              child:
+                                  ListTile(title: Text(resourceArabicTextSize)),
+                              itemBuilder: (BuildContext context) =>
+                                  List<PopupMenuItem<double>>.generate(
+                                      fontSizes.length,
+                                      (i) => PopupMenuItem<double>(
+                                          value: fontSizes[i],
+                                          child: Text(
+                                            resourceArabicBasmala,
+                                            style: TextStyle(
+                                                fontSize: fontSizes[i],
+                                                fontFamily: _arabicFont),
+                                          ))),
+                            ),
+                            value: resourceArabicTextSize),
+                        new PopupMenuItem<String>(
+                            child: PopupMenuButton<String>(
+                              padding: EdgeInsets.zero,
+                              initialValue: _arabicFont,
+                              onSelected: _setArabicFont,
+                              child:
+                                  ListTile(title: Text(resourceArabicTextFont)),
+                              itemBuilder: (BuildContext context) =>
+                                  List<PopupMenuItem<String>>.generate(
+                                      arabicFonts.length,
+                                      (i) => PopupMenuItem<String>(
+                                          value: arabicFonts[i],
+                                          child: Text(
+                                            resourceArabicBasmala,
+                                            style: TextStyle(
+                                                fontFamily: arabicFonts[i],
+                                                fontSize: _arabicFontSize),
+                                          ))),
+                            ),
+                            value: resourceArabicTextFont),
+                      ],
+                  onSelected: (_) {},
                 ),
                 IconButton(
                   icon: Icon(Icons.brightness_6),
@@ -57,9 +146,12 @@ class _BookTabsScreenState extends State<BookTabsScreen>
                   },
                 ),
                 IconButton(
-                  onPressed: ()  {_setBookmark(widget.position);},
-                  icon: (_bookmarks[widget.position] == 'false') ? Icon(Icons.bookmark_border) : Icon(Icons.bookmark)
-                ),
+                    onPressed: () {
+                      _setBookmark(widget.position);
+                    },
+                    icon: (_bookmarks[widget.position] == 'false')
+                        ? Icon(Icons.bookmark_border)
+                        : Icon(Icons.bookmark)),
               ],
               bottom: TabBar(
                 tabs: <Tab>[
@@ -121,14 +213,13 @@ class _BookTabsScreenState extends State<BookTabsScreen>
     });
   }
 
-  _goToPage(index){
-    if(index >= 0 && index < chapters.length)
- Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-    builder: (context) =>
-    BookTabsScreen(position: index)),
-    );
+  _goToPage(index) {
+    if (index >= 0 && index < chapters.length)
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BookTabsScreen(position: index)),
+      );
   }
 
   _setBookmark(int chapterIndex) async {
@@ -141,5 +232,45 @@ class _BookTabsScreenState extends State<BookTabsScreen>
       }
       prefs.setStringList(resourceBookmarks, _bookmarks);
     });
+  }
+
+  _setRussianFontSize(double size) async {
+    if (fontSizes.contains(size)) {
+      _russianFontSize = size;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        prefs.setDouble(resourceRussianFontSize, _russianFontSize);
+      });
+    }
+  }
+
+  _setArabicFontSize(double size) async {
+    if (fontSizes.contains(size)) {
+      _arabicFontSize = size;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        prefs.setDouble(resourceArabicFontSize, _arabicFontSize);
+      });
+    }
+  }
+
+  _setRussianFont(String font) async {
+    if (russianFonts.contains(font)) {
+      _russianFont = font;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        prefs.setString(resourceRussianFont, _russianFont);
+      });
+    }
+  }
+
+  _setArabicFont(String font) async {
+    if (arabicFonts.contains(font)) {
+      _arabicFont = font;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        prefs.setString(resourceArabicFont, _arabicFont);
+      });
+    }
   }
 }
