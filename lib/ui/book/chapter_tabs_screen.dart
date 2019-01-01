@@ -57,6 +57,16 @@ class _BookTabsScreenState extends State<BookTabsScreen>
     });
   }
 
+  _goToPage(index){
+    if(index >= 0 && index < chapters.length)
+ Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+    builder: (context) =>
+    BookTabsScreen(position: index)),
+    );
+  }
+
   @override
   void dispose() {
     _scrollViewController.dispose();
@@ -76,15 +86,20 @@ class _BookTabsScreenState extends State<BookTabsScreen>
               floating: true,
               snap: true,
               forceElevated: innerBoxIsScrolled,
-              title: Text(resourceChapter +
-                  (widget.position + 1).toString() +
-                  ' / ' +
-                  chapters.length.toString()),
+              title: Text('${widget.position + 1} / ${chapters.length.toString()}'),
               actions: <Widget>[
+                IconButton(
+                    onPressed: ()  {_goToPage(widget.position - 1);},
+                    icon: Icon(Icons.arrow_back_ios)
+                ),
+                IconButton(
+                    onPressed: () {_goToPage(widget.position + 1);},
+                    icon: Icon(Icons.arrow_forward_ios)
+                ),
                 IconButton(
                   onPressed: ()  {_setBookmark(widget.position);},
                   icon: (_bookmarks[widget.position] == 'false') ? Icon(Icons.bookmark_border) : Icon(Icons.bookmark)
-                )
+                ),
               ],
               bottom: TabBar(
                 tabs: <Tab>[
