@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 const List<double> fontSizes = [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30];
-const List<String> arabicFonts = ['Amiri', 'Katibeh', 'Lateef', 'MarkaziText', 'Mirza', 'Scheherazade'];
-const List<String> russianFonts = ['Roboto', 'Lora', 'Montserrat', 'OpenSans', 'Oswald', 'Ubuntu'];
 const double defaultRussianTextSize = 16;
 const double defaultArabicTextSize = 18;
 const int defaultThemeIndex = 0;
@@ -14,16 +12,12 @@ const int tabNum = 2;
 
 const String resourceRussianFontSize = 'russianFontSize';
 const String resourceArabicFontSize = 'arabicFontSize';
-const String resourceRussianFont = 'russianFont';
-const String resourceArabicFont = 'arabicFont';
 const String resourceBookmarks = 'bookmarks';
 const String nightMode = 'Ночной режим';
 const String resourceRussianBasmala = 'С именем Аллаха';
 const String resourceArabicBasmala = 'بِسۡمِ ٱلله';
 const String resourceRussianTextSize = 'Размер русского текста';
 const String resourceArabicTextSize = 'Размер арабского текста';
-const String resourceRussianTextFont = 'Шрифт русского текста';
-const String resourceArabicTextFont = 'Шрифт арабского текста';
 const String resourceTheme = 'Тема оформления';
 const String resourceMatnRussian = 'Матн';
 const String resourceMatnArabic = 'متن';

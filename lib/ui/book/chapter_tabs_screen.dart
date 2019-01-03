@@ -19,8 +19,6 @@ class _BookTabsScreenState extends State<BookTabsScreen>
   List<String> _bookmarks = List<String>.filled(chapters.length, 'false');
   double _russianFontSize = defaultRussianTextSize;
   double _arabicFontSize = defaultArabicTextSize;
-  String _russianFont = russianFonts[0];
-  String _arabicFont = arabicFonts[0];
   ScrollController _scrollViewController;
   TabController _tabController;
 
@@ -67,31 +65,10 @@ class _BookTabsScreenState extends State<BookTabsScreen>
                                           child: Text(
                                             resourceRussianBasmala,
                                             style: TextStyle(
-                                                fontSize: fontSizes[i],
-                                                fontFamily: _russianFont),
+                                                fontSize: fontSizes[i]),
                                           ))),
                             ),
                             value: resourceRussianTextSize),
-                        new PopupMenuItem<String>(
-                            child: PopupMenuButton<String>(
-                              padding: EdgeInsets.zero,
-                              initialValue: _russianFont,
-                              onSelected: _setRussianFont,
-                              child: ListTile(
-                                  title: Text(resourceRussianTextFont)),
-                              itemBuilder: (BuildContext context) =>
-                                  List<PopupMenuItem<String>>.generate(
-                                      russianFonts.length,
-                                      (i) => PopupMenuItem<String>(
-                                          value: russianFonts[i],
-                                          child: Text(
-                                            resourceRussianBasmala,
-                                            style: TextStyle(
-                                                fontFamily: russianFonts[i],
-                                                fontSize: _russianFontSize),
-                                          ))),
-                            ),
-                            value: resourceRussianTextFont),
                         new PopupMenuItem<String>(
                             child: new PopupMenuButton<double>(
                               padding: EdgeInsets.zero,
@@ -107,31 +84,10 @@ class _BookTabsScreenState extends State<BookTabsScreen>
                                           child: Text(
                                             resourceArabicBasmala,
                                             style: TextStyle(
-                                                fontSize: fontSizes[i],
-                                                fontFamily: _arabicFont),
+                                                fontSize: fontSizes[i]),
                                           ))),
                             ),
                             value: resourceArabicTextSize),
-                        new PopupMenuItem<String>(
-                            child: PopupMenuButton<String>(
-                              padding: EdgeInsets.zero,
-                              initialValue: _arabicFont,
-                              onSelected: _setArabicFont,
-                              child:
-                                  ListTile(title: Text(resourceArabicTextFont)),
-                              itemBuilder: (BuildContext context) =>
-                                  List<PopupMenuItem<String>>.generate(
-                                      arabicFonts.length,
-                                      (i) => PopupMenuItem<String>(
-                                          value: arabicFonts[i],
-                                          child: Text(
-                                            resourceArabicBasmala,
-                                            style: TextStyle(
-                                                fontFamily: arabicFonts[i],
-                                                fontSize: _arabicFontSize),
-                                          ))),
-                            ),
-                            value: resourceArabicTextFont),
                       ],
                   onSelected: (_) {},
                 ),
@@ -170,13 +126,11 @@ class _BookTabsScreenState extends State<BookTabsScreen>
             TextView(
                 chapters[widget.position].russianTitle,
                 chapters[widget.position].russianMatn,
-                _russianFontSize,
-                _russianFont),
+                _russianFontSize),
             TextView(
                 chapters[widget.position].arabicTitle,
                 chapters[widget.position].arabicMatn,
-                _arabicFontSize,
-                _arabicFont),
+                _arabicFontSize),
           ],
           controller: _tabController,
         ),
@@ -206,8 +160,6 @@ class _BookTabsScreenState extends State<BookTabsScreen>
           (prefs.getDouble(resourceRussianFontSize) ?? defaultRussianTextSize);
       _arabicFontSize =
           (prefs.getDouble(resourceArabicFontSize) ?? defaultArabicTextSize);
-      _russianFont = (prefs.getString(resourceRussianFont) ?? russianFonts[0]);
-      _arabicFont = (prefs.getString(resourceArabicFont) ?? arabicFonts[0]);
       _bookmarks = (prefs.getStringList(resourceBookmarks) ??
           List<String>.filled(chapters.length, 'false'));
     });
@@ -250,26 +202,6 @@ class _BookTabsScreenState extends State<BookTabsScreen>
       SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {
         prefs.setDouble(resourceArabicFontSize, _arabicFontSize);
-      });
-    }
-  }
-
-  _setRussianFont(String font) async {
-    if (russianFonts.contains(font)) {
-      _russianFont = font;
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      setState(() {
-        prefs.setString(resourceRussianFont, _russianFont);
-      });
-    }
-  }
-
-  _setArabicFont(String font) async {
-    if (arabicFonts.contains(font)) {
-      _arabicFont = font;
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      setState(() {
-        prefs.setString(resourceArabicFont, _arabicFont);
       });
     }
   }
