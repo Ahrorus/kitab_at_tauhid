@@ -47,49 +47,11 @@ class _BookTabsScreenState extends State<BookTabsScreen>
                       _goToPage(widget.position + 1);
                     },
                     icon: Icon(Icons.arrow_forward_ios)),
-                PopupMenuButton(
-                  child: const Icon(Icons.text_fields),
-                  itemBuilder: (_) => <PopupMenuItem<String>>[
-                        new PopupMenuItem<String>(
-                            child: PopupMenuButton<double>(
-                              padding: EdgeInsets.zero,
-                              initialValue: _russianFontSize,
-                              onSelected: _setRussianFontSize,
-                              child: ListTile(
-                                  title: Text(resourceRussianTextSize)),
-                              itemBuilder: (BuildContext context) =>
-                                  List<PopupMenuItem<double>>.generate(
-                                      fontSizes.length,
-                                      (i) => PopupMenuItem<double>(
-                                          value: fontSizes[i],
-                                          child: Text(
-                                            resourceRussianBasmala,
-                                            style: TextStyle(
-                                                fontSize: fontSizes[i]),
-                                          ))),
-                            ),
-                            value: resourceRussianTextSize),
-                        new PopupMenuItem<String>(
-                            child: new PopupMenuButton<double>(
-                              padding: EdgeInsets.zero,
-                              initialValue: _arabicFontSize,
-                              onSelected: _setArabicFontSize,
-                              child:
-                                  ListTile(title: Text(resourceArabicTextSize)),
-                              itemBuilder: (BuildContext context) =>
-                                  List<PopupMenuItem<double>>.generate(
-                                      fontSizes.length,
-                                      (i) => PopupMenuItem<double>(
-                                          value: fontSizes[i],
-                                          child: Text(
-                                            resourceArabicBasmala,
-                                            style: TextStyle(
-                                                fontSize: fontSizes[i]),
-                                          ))),
-                            ),
-                            value: resourceArabicTextSize),
-                      ],
-                  onSelected: (_) {},
+                IconButton(
+                  icon: Icon(Icons.text_fields),
+                  onPressed: () {
+_showTextSizeDialog();
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.brightness_6),
@@ -187,7 +149,7 @@ class _BookTabsScreenState extends State<BookTabsScreen>
   }
 
   _setRussianFontSize(double size) async {
-    if (fontSizes.contains(size)) {
+    if(size > minTextSize && size < maxTextSize) {
       _russianFontSize = size;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {
@@ -197,12 +159,72 @@ class _BookTabsScreenState extends State<BookTabsScreen>
   }
 
   _setArabicFontSize(double size) async {
-    if (fontSizes.contains(size)) {
+    if(size > minTextSize && size < maxTextSize) {
       _arabicFontSize = size;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {
         prefs.setDouble(resourceArabicFontSize, _arabicFontSize);
       });
     }
+  }
+
+  _showTextSizeDialog(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: CircleAvatar(
+                      child: Text(('-').toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    onPressed: () {
+                      _setRussianFontSize(_russianFontSize - textSizeStep);
+                    },
+                  ),
+                  Expanded(child: Container(
+                      alignment: Alignment.center,
+                      child: Text(resourceRussianTextSize))),
+                  IconButton(
+                    icon: CircleAvatar(
+                      child: Text(('+').toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    onPressed: () {
+                      _setRussianFontSize(_russianFontSize + textSizeStep);
+                    },
+                  )
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: CircleAvatar(
+                      child: Text(('-').toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    onPressed: () {
+                      _setArabicFontSize(_arabicFontSize - textSizeStep);
+                    },
+                  ),
+                  Expanded(child: Container(
+                      alignment: Alignment.center,
+                      child: Text(resourceArabicTextSize))),
+                  IconButton(
+                    icon: CircleAvatar(
+                      child: Text(('+').toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    onPressed: () {
+                      _setArabicFontSize(_arabicFontSize + textSizeStep);
+                    },
+                  )
+                ],
+              )
+            ],
+          );});
   }
 }
