@@ -21,15 +21,16 @@ class TextView extends StatelessWidget {
               header,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: fontSize * 1.2, fontWeight: FontWeight.w900),
+                  fontSize: fontSize * 1.2,
+                  fontWeight: FontWeight.w900,
+                  height: textRowHeight),
             )),
         Html(
           data: text,
 //Optional parameters:
           padding: EdgeInsets.all(textEdgeInset),
-          defaultTextStyle: TextStyle(
-            fontSize: fontSize,
-          ),
+          defaultTextStyle:
+              TextStyle(fontSize: fontSize, height: textRowHeight),
         ),
       ],
     );

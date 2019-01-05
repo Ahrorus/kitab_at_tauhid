@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const double defaultRussianTextSize = 16.0;
 const double defaultArabicTextSize = 18.0;
+const textRowHeight = 1.2;
 
 const double minTextSize = 10.0;
 const double maxTextSize = 30.0;
