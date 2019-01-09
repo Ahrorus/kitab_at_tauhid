@@ -52,16 +52,23 @@ class _BookScreenState extends State<BookScreen> {
                 ),
                 subtitle: Text(chapters[position].arabicTitle,
                     style: TextStyle(fontSize: defaultArabicTextSize)),
-                leading: Column(children: <Widget>[CircleAvatar(
-                    child: Text((position + 1).toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                leading: Column(
+                  children: <Widget>[
+                    CircleAvatar(
+                      child: Text((position + 1).toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
-                    Icon(Icons.bookmark, color: (_bookmarks[position] == 'false') ? Color(0x00000000) : Theme.of(context).accentColor)],),
+                    Icon(Icons.bookmark,
+                        color: (_bookmarks[position] == 'false')
+                            ? Color(0x00000000)
+                            : Theme.of(context).accentColor)
+                  ],
+                ),
                 onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              BookTabsScreen(position: position)),
+                              ChapterTabsScreen(chapterIndex: position)),
                     ),
                 onLongPress: () {
                   _setBookmark(position);

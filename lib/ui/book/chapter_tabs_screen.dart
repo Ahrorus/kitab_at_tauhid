@@ -4,17 +4,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../book_resource/book.dart';
 import '../../util/constants.dart';
-import 'text_view.dart';
+import 'chapter_tabs.dart';
 
-class BookTabsScreen extends StatefulWidget {
-  final int position;
-  BookTabsScreen({Key key, this.position}) : super(key: key);
+class ChapterTabsScreen extends StatefulWidget {
+  final int chapterIndex;
+  ChapterTabsScreen({Key key, this.chapterIndex}) : super(key: key);
 
   @override
-  _BookTabsScreenState createState() => _BookTabsScreenState();
+  _ChapterTabsScreenState createState() => _ChapterTabsScreenState();
 }
 
-class _BookTabsScreenState extends State<BookTabsScreen>
+class _ChapterTabsScreenState extends State<ChapterTabsScreen>
     with SingleTickerProviderStateMixin {
   List<String> _bookmarks = List<String>.filled(chapters.length, 'false');
   double _russianFontSize = defaultRussianTextSize;
@@ -35,22 +35,22 @@ class _BookTabsScreenState extends State<BookTabsScreen>
               snap: true,
               forceElevated: innerBoxIsScrolled,
               title: Text(
-                  '${widget.position + 1} / ${chapters.length.toString()}'),
+                  '${widget.chapterIndex + 1} / ${chapters.length.toString()}'),
               actions: <Widget>[
                 IconButton(
                     onPressed: () {
-                      _goToPage(widget.position - 1);
+                      _goToPage(widget.chapterIndex - 1);
                     },
                     icon: Icon(Icons.arrow_back_ios)),
                 IconButton(
                     onPressed: () {
-                      _goToPage(widget.position + 1);
+                      _goToPage(widget.chapterIndex + 1);
                     },
                     icon: Icon(Icons.arrow_forward_ios)),
                 IconButton(
                   icon: Icon(Icons.text_fields),
                   onPressed: () {
-_showTextSizeDialog();
+                    _showTextSizeDialog();
                   },
                 ),
                 IconButton(
@@ -65,35 +65,22 @@ _showTextSizeDialog();
                 ),
                 IconButton(
                     onPressed: () {
-                      _setBookmark(widget.position);
+                      _setBookmark(widget.chapterIndex);
                     },
-                    icon: (_bookmarks[widget.position] == 'false')
+                    icon: (_bookmarks[widget.chapterIndex] == 'false')
                         ? Icon(Icons.bookmark_border)
                         : Icon(Icons.bookmark)),
               ],
               bottom: TabBar(
-                tabs: <Tab>[
-                  Tab(text: resourceMatnRussian),
-                  Tab(
-                    text: resourceMatnArabic,
-                  ),
-                ],
+                tabs: getChapterTabs(),
                 controller: _tabController,
               ),
             ),
           ];
         },
         body: TabBarView(
-          children: <Widget>[
-            TextView(
-                chapters[widget.position].russianTitle,
-                chapters[widget.position].russianMatn,
-                _russianFontSize),
-            TextView(
-                chapters[widget.position].arabicTitle,
-                chapters[widget.position].arabicMatn,
-                _arabicFontSize),
-          ],
+          children: getChapterTabBodies(
+              widget.chapterIndex, _russianFontSize, _arabicFontSize),
           controller: _tabController,
         ),
       ),
@@ -110,12 +97,12 @@ _showTextSizeDialog();
   @override
   void initState() {
     super.initState();
-    _getFontStyle();
+    _getSharedPreferences();
     _scrollViewController = ScrollController();
     _tabController = TabController(vsync: this, length: tabNum);
   }
 
-  _getFontStyle() async {
+  _getSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _russianFontSize =
@@ -124,6 +111,7 @@ _showTextSizeDialog();
           (prefs.getDouble(resourceArabicFontSize) ?? defaultArabicTextSize);
       _bookmarks = (prefs.getStringList(resourceBookmarks) ??
           List<String>.filled(chapters.length, 'false'));
+      getTabsOrder();
     });
   }
 
@@ -132,7 +120,7 @@ _showTextSizeDialog();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => BookTabsScreen(position: index)),
+            builder: (context) => ChapterTabsScreen(chapterIndex: index)),
       );
   }
 
@@ -149,7 +137,7 @@ _showTextSizeDialog();
   }
 
   _setRussianFontSize(double size) async {
-    if(size > minTextSize && size < maxTextSize) {
+    if (size > minTextSize && size < maxTextSize) {
       _russianFontSize = size;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {
@@ -159,7 +147,7 @@ _showTextSizeDialog();
   }
 
   _setArabicFontSize(double size) async {
-    if(size > minTextSize && size < maxTextSize) {
+    if (size > minTextSize && size < maxTextSize) {
       _arabicFontSize = size;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {
@@ -168,7 +156,7 @@ _showTextSizeDialog();
     }
   }
 
-  _showTextSizeDialog(){
+  _showTextSizeDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -185,9 +173,10 @@ _showTextSizeDialog();
                       _setRussianFontSize(_russianFontSize - textSizeStep);
                     },
                   ),
-                  Expanded(child: Container(
-                      alignment: Alignment.center,
-                      child: Text(resourceRussianTextSize))),
+                  Expanded(
+                      child: Container(
+                          alignment: Alignment.center,
+                          child: Text(resourceRussianTextSize))),
                   IconButton(
                     icon: CircleAvatar(
                       child: Text(('+').toString(),
@@ -210,9 +199,10 @@ _showTextSizeDialog();
                       _setArabicFontSize(_arabicFontSize - textSizeStep);
                     },
                   ),
-                  Expanded(child: Container(
-                      alignment: Alignment.center,
-                      child: Text(resourceArabicTextSize))),
+                  Expanded(
+                      child: Container(
+                          alignment: Alignment.center,
+                          child: Text(resourceArabicTextSize))),
                   IconButton(
                     icon: CircleAvatar(
                       child: Text(('+').toString(),
@@ -225,6 +215,7 @@ _showTextSizeDialog();
                 ],
               )
             ],
-          );});
+          );
+        });
   }
 }
