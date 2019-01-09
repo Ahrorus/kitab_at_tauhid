@@ -22,6 +22,7 @@ dependencies:
   flutter_html: ^0.8.2
   shared_preferences: ^0.4.3
   dynamic_theme: ^1.0.0
+  flutter_list_drag_and_drop: ^0.1.6
 
 dev_dependencies:
   flutter_test:
