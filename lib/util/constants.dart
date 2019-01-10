@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const double defaultRussianTextSize = 16.0;
 const double highlightedRussianTextSize = 20.0;
 const double defaultArabicTextSize = 18.0;
+const double chapterAppBarTextSize = 18.0;
 const textRowHeight = 1.2;
 
 const double minTextSize = 10.0;

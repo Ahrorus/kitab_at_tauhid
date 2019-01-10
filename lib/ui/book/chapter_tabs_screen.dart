@@ -35,7 +35,9 @@ class _ChapterTabsScreenState extends State<ChapterTabsScreen>
               snap: true,
               forceElevated: innerBoxIsScrolled,
               title: Text(
-                  '${widget.chapterIndex + 1} / ${chapters.length.toString()}'),
+                '${widget.chapterIndex + 1} / ${chapters.length}',
+                style: TextStyle(fontSize: chapterAppBarTextSize),
+              ),
               actions: <Widget>[
                 IconButton(
                     onPressed: () {
