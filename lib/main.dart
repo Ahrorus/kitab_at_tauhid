@@ -1,6 +1,7 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 
+import 'book_resource/book.dart';
 import 'ui/home.dart';
 import 'util/constants.dart';
 
@@ -18,9 +19,9 @@ class MyApp extends StatelessWidget {
         themedWidgetBuilder: (context, theme) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Kitab at-Tauhid',
+            title: bookTitle,
             theme: theme,
-            home: Home(title: 'Kitab at-Tauhid'),
+            home: Home(title: bookTitle),
           );
         });
   }
