@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../book_resource/book.dart';
+import '../../util/book_shared_preferences.dart';
 import '../../util/constants.dart';
 import 'chapter_audio_list.dart';
 import 'text_view.dart';
-
-List<int> tabsOrder = defaultTabsOrder;
-
-getTabsOrder() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  tabsOrder[0] = (prefs.getInt(tab0) ?? defaultTabsOrder[0]);
-  tabsOrder[1] = (prefs.getInt(tab1) ?? defaultTabsOrder[1]);
-  tabsOrder[2] = (prefs.getInt(tab2) ?? defaultTabsOrder[2]);
-  tabsOrder[3] = (prefs.getInt(tab3) ?? defaultTabsOrder[3]);
-}
 
 List<Widget> getChapterTabBodies(
     int chapterIndex, double russianFontSize, double arabicFontSize) {

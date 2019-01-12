@@ -1,8 +1,8 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../book_resource/book.dart';
+import '../../util/book_shared_preferences.dart';
 import '../../util/constants.dart';
 import 'chapter_tabs.dart';
 
@@ -15,10 +15,7 @@ class ChapterTabsScreen extends StatefulWidget {
 }
 
 class _ChapterTabsScreenState extends State<ChapterTabsScreen>
-    with SingleTickerProviderStateMixin {
-  List<String> _bookmarks = List<String>.filled(chapters.length, 'false');
-  double _russianFontSize = defaultRussianTextSize;
-  double _arabicFontSize = defaultArabicTextSize;
+    with SingleTickerProviderStateMixin, BookSharedPreferences {
   ScrollController _scrollViewController;
   TabController _tabController;
 
@@ -67,9 +64,9 @@ class _ChapterTabsScreenState extends State<ChapterTabsScreen>
                 ),
                 IconButton(
                     onPressed: () {
-                      _setBookmark(widget.chapterIndex);
+                      setBookmark(widget.chapterIndex);
                     },
-                    icon: (_bookmarks[widget.chapterIndex] == 'false')
+                    icon: (bookmarks[widget.chapterIndex] == 'false')
                         ? Icon(Icons.bookmark_border)
                         : Icon(Icons.bookmark)),
               ],
@@ -82,7 +79,7 @@ class _ChapterTabsScreenState extends State<ChapterTabsScreen>
         },
         body: TabBarView(
           children: getChapterTabBodies(
-              widget.chapterIndex, _russianFontSize, _arabicFontSize),
+              widget.chapterIndex, russianFontSize, arabicFontSize),
           controller: _tabController,
         ),
       ),
@@ -99,22 +96,11 @@ class _ChapterTabsScreenState extends State<ChapterTabsScreen>
   @override
   void initState() {
     super.initState();
-    _getSharedPreferences();
+    getFontSizes();
+    getTabsOrder();
+    getBookmarks();
     _scrollViewController = ScrollController();
     _tabController = TabController(vsync: this, length: tabNum);
-  }
-
-  _getSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _russianFontSize =
-          (prefs.getDouble(resourceRussianFontSize) ?? defaultRussianTextSize);
-      _arabicFontSize =
-          (prefs.getDouble(resourceArabicFontSize) ?? defaultArabicTextSize);
-      _bookmarks = (prefs.getStringList(resourceBookmarks) ??
-          List<String>.filled(chapters.length, 'false'));
-      getTabsOrder();
-    });
   }
 
   _goToPage(index) {
@@ -124,38 +110,6 @@ class _ChapterTabsScreenState extends State<ChapterTabsScreen>
         MaterialPageRoute(
             builder: (context) => ChapterTabsScreen(chapterIndex: index)),
       );
-  }
-
-  _setBookmark(int chapterIndex) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (_bookmarks[chapterIndex] == 'false') {
-        _bookmarks[chapterIndex] = 'true';
-      } else {
-        _bookmarks[chapterIndex] = 'false';
-      }
-      prefs.setStringList(resourceBookmarks, _bookmarks);
-    });
-  }
-
-  _setRussianFontSize(double size) async {
-    if (size > minTextSize && size < maxTextSize) {
-      _russianFontSize = size;
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      setState(() {
-        prefs.setDouble(resourceRussianFontSize, _russianFontSize);
-      });
-    }
-  }
-
-  _setArabicFontSize(double size) async {
-    if (size > minTextSize && size < maxTextSize) {
-      _arabicFontSize = size;
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      setState(() {
-        prefs.setDouble(resourceArabicFontSize, _arabicFontSize);
-      });
-    }
   }
 
   _showTextSizeDialog() {
@@ -172,7 +126,7 @@ class _ChapterTabsScreenState extends State<ChapterTabsScreen>
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     onPressed: () {
-                      _setRussianFontSize(_russianFontSize - textSizeStep);
+                      setRussianFontSize(russianFontSize - textSizeStep);
                     },
                   ),
                   Expanded(
@@ -185,7 +139,7 @@ class _ChapterTabsScreenState extends State<ChapterTabsScreen>
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     onPressed: () {
-                      _setRussianFontSize(_russianFontSize + textSizeStep);
+                      setRussianFontSize(russianFontSize + textSizeStep);
                     },
                   )
                 ],
@@ -198,7 +152,7 @@ class _ChapterTabsScreenState extends State<ChapterTabsScreen>
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     onPressed: () {
-                      _setArabicFontSize(_arabicFontSize - textSizeStep);
+                      setArabicFontSize(arabicFontSize - textSizeStep);
                     },
                   ),
                   Expanded(
@@ -211,7 +165,7 @@ class _ChapterTabsScreenState extends State<ChapterTabsScreen>
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     onPressed: () {
-                      _setArabicFontSize(_arabicFontSize + textSizeStep);
+                      setArabicFontSize(arabicFontSize + textSizeStep);
                     },
                   )
                 ],

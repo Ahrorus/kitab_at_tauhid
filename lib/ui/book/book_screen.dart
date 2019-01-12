@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../book_resource/book.dart';
+import '../../util/book_shared_preferences.dart';
 import '../../util/constants.dart';
 import 'chapter_tabs_screen.dart';
 
@@ -10,33 +10,11 @@ class BookScreen extends StatefulWidget {
   _BookScreenState createState() => _BookScreenState();
 }
 
-class _BookScreenState extends State<BookScreen> {
-  List<String> _bookmarks = List<String>.filled(chapters.length, 'false');
-
+class _BookScreenState extends State<BookScreen> with BookSharedPreferences {
   @override
   void initState() {
     super.initState();
-    _getBookmarks();
-  }
-
-  _getBookmarks() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _bookmarks = (prefs.getStringList(resourceBookmarks) ??
-          List<String>.filled(chapters.length, 'false'));
-    });
-  }
-
-  _setBookmark(int chapterIndex) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (_bookmarks[chapterIndex] == 'false') {
-        _bookmarks[chapterIndex] = 'true';
-      } else {
-        _bookmarks[chapterIndex] = 'false';
-      }
-      prefs.setStringList(resourceBookmarks, _bookmarks);
-    });
+    getBookmarks();
   }
 
   @override
@@ -59,7 +37,7 @@ class _BookScreenState extends State<BookScreen> {
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     Icon(Icons.bookmark,
-                        color: (_bookmarks[position] == 'false')
+                        color: (bookmarks[position] == 'false')
                             ? Color(0x00000000)
                             : Theme.of(context).accentColor)
                   ],
@@ -71,7 +49,7 @@ class _BookScreenState extends State<BookScreen> {
                               ChapterTabsScreen(chapterIndex: position)),
                     ),
                 onLongPress: () {
-                  _setBookmark(position);
+                  setBookmark(position);
                 },
               );
             }));
