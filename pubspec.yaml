@@ -23,6 +23,9 @@ dependencies:
   shared_preferences: ^0.4.3
   dynamic_theme: ^1.0.0
   flutter_list_drag_and_drop: ^0.1.6
+  audioplayer:
+  http: any
+  path_provider:
 
 dev_dependencies:
   flutter_test:
