@@ -22,6 +22,9 @@ List<String> defaultTabsNamesOrder = [
   '$resourceSharhRussian ($resourceSharhRussianExplanation)',
   resourceAudio
 ];
+List<bool> defaultAudioDownloadCheck = [false, false, false, false]; // for now, it's 4
+const List<String> lectureKeys = ['lecture0', 'lecture1', 'lecture2', 'lecture3'];
+
 const String tab0 = 'tab0';
 const String tab1 = 'tab1';
 const String tab2 = 'tab2';

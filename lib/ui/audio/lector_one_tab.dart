@@ -1,13 +1,14 @@
-
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import '../home.dart';
 import 'package:audioplayer/audioplayer.dart';
 import 'package:flutter/material.dart';
 import '../../util/constants.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 typedef void OnError(Exception exception);
 
@@ -51,10 +52,41 @@ class _LectorOneTabState extends State<LectorOneTab> {
   StreamSubscription _positionSubscription;
   StreamSubscription _audioPlayerStateSubscription;
 
+  List<bool> audioDownloadCheck = defaultAudioDownloadCheck;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     initAudioPlayer();
+    _getSharedPreferences();
+  }
+
+  _getSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      for (int i = 0; i < lectureKeys.length; i++) {
+        audioDownloadCheck[i] = (prefs.getBool(lectureKeys[i]) ?? false);
+      }
+    });
+  }
+
+  _setAudioDownloadCheck(int i) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setBool(lectureKeys[i], true);
+      for (int i = 0; i < lectureKeys.length; i++) {
+        audioDownloadCheck[i] = (prefs.getBool(lectureKeys[i]) ?? false);
+      }
+    });
+  }
+  _setAudioDownloadCheckOff(int i) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setBool(lectureKeys[i], false);
+      for (int i = 0; i < lectureKeys.length; i++) {
+        audioDownloadCheck[i] = (prefs.getBool(lectureKeys[i]) ?? false);
+      }
+    });
   }
 
   @override
@@ -146,69 +178,74 @@ class _LectorOneTabState extends State<LectorOneTab> {
     if (await file.exists())
       setState(() {
         localFilePath = file.path;
+        _setAudioDownloadCheck(0);
       });
   }
 
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+/*
+    for (int i = 0; i < lectureKeys.length; i++) {
+      audioDownloadCheck[i] = getAudioDownloadCheck(i);
+    }
+*/
+    print('AUDIO DOWNLOAD CHECK: ');
+    for (int i = 0; i < lectureKeys.length; i++) {
+      print('$i - ${audioDownloadCheck[i]}');
+    }
 
     return new Scaffold(
       body: new ListView(
         children: <Widget>[
           new Material(child: _buildPlayer()),
-          (localFilePath != null) ? new Text(localFilePath) : new Container(),
-          new Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                new RaisedButton(
-                  onPressed: () => _loadFile(),
-                  child: new Text('Download'),
-                ),
-                new RaisedButton(
-                  onPressed: () => _playLocal(),
-                  child: new Text('play local'),
-                ),
-              ],
-            )
-          )
         ]
       ),
     );
   }
 
 
-  Widget _buildPlayer() => new Container(
-    padding: new EdgeInsets.all(16.0),
-    child: new Column(mainAxisSize: MainAxisSize.min, children: [
-      new Row(mainAxisSize: MainAxisSize.min, children: [
-        new IconButton(
-          onPressed: isPlaying ? null : () => play(),
-          iconSize: 64.0,
-          icon: new Icon(Icons.play_arrow),
-          color: Colors.cyan),
-        new IconButton(
-          onPressed: isPlaying ? () => pause() : null,
-          iconSize: 64.0,
-          icon: new Icon(Icons.pause),
-          color: Colors.cyan),
-        new IconButton(
-          onPressed: isPlaying || isPaused ? () => stop() : null,
-          iconSize: 64.0,
-          icon: new Icon(Icons.stop),
-          color: Colors.cyan),
-      ]),
-      duration == null
-        ? new Container()
-        : new Slider(
-        value: position?.inMilliseconds?.toDouble() ?? 0.0,
-        onChanged: (double value) =>
-          audioPlayer.seek((value / 1000).roundToDouble()),
-        min: 0.0,
-        max: duration.inMilliseconds.toDouble()),
-      /* ---------- Mute/Unmute Buttons
+  Widget _buildPlayer(){
+    return new Container(
+      padding: new EdgeInsets.all(15.0),
+      child: new Column(children: [
+        new Row(mainAxisSize: MainAxisSize.max, children: [
+          new IconButton(
+            onPressed: () {
+              if (audioDownloadCheck[0]) {
+                isPlaying ? pause() : _playLocal();
+              } else {
+                _loadFile();
+              }
+            },
+            iconSize: 50.0,
+            icon: (audioDownloadCheck[0]) ? (isPlaying ? new Icon(Icons.pause) :
+                    new Icon(Icons.play_arrow)) : new Icon(Icons.file_download),
+            color: Colors.cyan
+          ),
+          /* ----------- Pause and Play buttons
+          new IconButton(
+            onPressed: isPlaying ? () => pause() : null,
+            iconSize: 64.0,
+            icon: new Icon(Icons.pause),
+            color: Colors.cyan),
+          new IconButton(
+            onPressed: isPlaying || isPaused ? () => stop() : null,
+            iconSize: 64.0,
+            icon: new Icon(Icons.stop),
+            color: Colors.cyan),
+          */
+          duration == null
+            ? new Container()
+            : new Slider(
+            value: position?.inMilliseconds?.toDouble() ?? 0.0,
+            onChanged: (double value) =>
+              audioPlayer.seek((value / 1000).roundToDouble()),
+            min: 0.0,
+            max: duration.inMilliseconds.toDouble()
+          ),
+        ]),
+        // ---------- Here was the slider
+        /* ---------- Mute/Unmute Buttons
       new Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -223,29 +260,30 @@ class _LectorOneTabState extends State<LectorOneTab> {
         ],
       ),
       */
-      new Row(mainAxisSize: MainAxisSize.min, children: [
-        new Padding(
-          padding: new EdgeInsets.all(12.0),
-          child: new Stack(children: [
-            new CircularProgressIndicator(
-              value: 1.0,
-              valueColor: new AlwaysStoppedAnimation(Colors.grey[300])),
-            new CircularProgressIndicator(
-              value: position != null && position.inMilliseconds > 0
-                ? (position?.inMilliseconds?.toDouble() ?? 0.0) /
-                (duration?.inMilliseconds?.toDouble() ?? 0.0)
-                : 0.0,
-              valueColor: new AlwaysStoppedAnimation(Colors.cyan),
-              backgroundColor: Colors.yellow,
-            ),
-          ])),
-        new Text(
-          position != null
-            ? "${positionText ?? ''} / ${durationText ?? ''}"
-            : duration != null ? durationText : '',
-          style: new TextStyle(fontSize: 24.0))
+        new Row(mainAxisSize: MainAxisSize.min, children: [
+          new Padding(
+            padding: new EdgeInsets.all(12.0),
+            child: new Stack(children: [
+              new CircularProgressIndicator(
+                value: 1.0,
+                valueColor: new AlwaysStoppedAnimation(Colors.grey[300])),
+              new CircularProgressIndicator(
+                value: position != null && position.inMilliseconds > 0
+                  ? (position?.inMilliseconds?.toDouble() ?? 0.0) /
+                  (duration?.inMilliseconds?.toDouble() ?? 0.0)
+                  : 0.0,
+                valueColor: new AlwaysStoppedAnimation(Colors.cyan),
+                backgroundColor: Colors.yellow,
+              ),
+            ])),
+          new Text(
+            position != null
+              ? "${positionText ?? ''} / ${durationText ?? ''}"
+              : duration != null ? durationText : '',
+            style: new TextStyle(fontSize: 24.0))
+        ])
       ])
-    ])
-  );
+    );
+  }
 
 }

@@ -75,4 +75,5 @@ mixin BookSharedPreferences<T extends StatefulWidget> on State<T> {
     prefs.setInt(tab2, tabsOrder[2]);
     prefs.setInt(tab3, tabsOrder[3]);
   }
+
 }
